@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="articles.css" />
+    <link rel="stylesheet" type="text/css" href="prism.css" />
+  </head>
+  <body>
+    <article class="markdown-body">
+      <h1 align="center">Enquirer</h1>
+
+      <p align="center">
+        <a href="https://npmjs.org/package/enquirer"> </a>
+        <a href="https://travis-ci.org/enquirer/enquirer"> </a>
+        <a href="https://npmjs.org/package/enquirer"> </a>
+      </p>
+
+      <br />
+      <br />
+
+      <p align="center">
+        <b
+          >Stylish CLI prompts that are user-friendly, intuitive and easy to
+          create.</b
+        ><br />
+        <sub
+          >&gt;_ Prompts should be more like conversations than
+          inquisitions▌</sub
+        >
+      </p>
+
+      <br />
+
+      <p align="center">
+        <sub
+          >(Example shows Enquirer's
+          <a href="#survey-prompt">Survey Prompt</a>)</sub
+        >
+        <sub
+          >The terminal in all examples is
+          <a href="https://hyper.is/">Hyper</a>, theme is
+          <a href="https://github.com/jonschlinkert/hyper-monokai-extended"
+            >hyper-monokai-extended</a
+          >.</sub
+        ><br /><br />
+        <a href="#built-in-prompts"
+          ><strong>See more prompt examples</strong></a
+        >
+      </p>
+
+      <br />
+      <br />
+
+      <p>
+        Created by
+        <a href="https://github.com/jonschlinkert">jonschlinkert</a> and
+        <a href="https://github.com/doowb">doowb</a>, Enquirer is fast, easy to
+        use, and lightweight enough for small projects, while also being
+        powerful and customizable enough for the most advanced use cases.
+      </p>
+      <ul>
+        <li>
+          <strong>Fast</strong> -
+          <a href="#-performance">Loads in ~4ms</a> (that's about
+          <em
+            >3-4 times faster than a
+            <a
+              href="http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php"
+              >single frame of a HD movie</a
+            >
+            at 60fps</em
+          >)
+        </li>
+        <li>
+          <strong>Lightweight</strong> - Only one dependency, the excellent
+          <a href="https://github.com/doowb/ansi-colors">ansi-colors</a> by
+          <a href="https://github.com/doowb">Brian Woodward</a>.
+        </li>
+        <li>
+          <strong>Easy to implement</strong> - Uses promises and async/await and
+          sensible defaults to make prompts easy to create and implement.
+        </li>
+        <li>
+          <strong>Easy to use</strong> - Thrill your users with a better
+          experience! Navigating around input and choices is a breeze. You can
+          even create <a href="examples/fun/countdown.js">quizzes</a>, or
+          <a href="examples/fun/record.js">record</a> and
+          <a href="examples/fun/play.js">playback</a> key bindings to aid with
+          tutorials and videos.
+        </li>
+        <li>
+          <strong>Intuitive</strong> - Keypress combos are available to simplify
+          usage.
+        </li>
+        <li>
+          <strong>Flexible</strong> - All prompts can be used standalone or
+          chained together.
+        </li>
+        <li>
+          <strong>Stylish</strong> - Easily override semantic styles and symbols
+          for any part of the prompt.
+        </li>
+        <li>
+          <strong>Extensible</strong> - Easily create and use
+          <a href="#-custom-prompts">custom prompts</a> by extending Enquirer's
+          built-in <a href="#-prompts">prompts</a>.
+        </li>
+        <li>
+          <strong>Pluggable</strong> - Add advanced features to Enquirer using
+          plugins.
+        </li>
+        <li>
+          <strong>Validation</strong> - Optionally validate user input with any
+          prompt.
+        </li>
+        <li>
+          <strong>Well tested</strong> - All prompts are well-tested, and tests
+          are easy to create without having to use brittle, hacky solutions to
+          spy on prompts or "inject" values.
+        </li>
+        <li>
+          <strong>Examples</strong> - There are numerous
+          <a href="examples">examples</a> available to help you get started.
+        </li>
+      </ul>
+      <p>
+        If you like Enquirer, please consider starring or tweeting about this
+        project to show your support. Thanks!
+      </p>
+      <br />
+
+      <p align="center">
+        <b>&gt;_ Ready to start making prompts your users will love? ▌</b><br />
+      </p>
+
+      <br />
+      <br />
+
+      <h2 class="atx" id="❯-getting-started">❯ Getting started</h2>
+      <p>
+        Get started with Enquirer, the most powerful and easy-to-use Node.js
+        library for creating interactive CLI prompts.
+      </p>
+      <ul>
+        <li><a href="#-install">Install</a></li>
+        <li><a href="#-usage">Usage</a></li>
+        <li><a href="#-enquirer">Enquirer</a></li>
+        <li>
+          <a href="#-prompts">Prompts</a>
+          <ul>
+            <li><a href="#-built-in-prompts">Built-in Prompts</a></li>
+            <li><a href="#-custom-prompts">Custom Prompts</a></li>
+          </ul>
+        </li>
+        <li><a href="#-key-bindings">Key Bindings</a></li>
+        <li><a href="#-options">Options</a></li>
+        <li><a href="#-release-history">Release History</a></li>
+        <li><a href="#-performance">Performance</a></li>
+        <li><a href="#-about">About</a></li>
+      </ul>
+      <br />
+
+      <h2 class="atx" id="❯-install">❯ Install</h2>
+      <p>Install with <a href="https://www.npmjs.com/">npm</a>:</p>
+      <pre><code class="fenced-code-block language-sh">$ npm install enquirer --save</code></pre>
+      <p>Install with <a href="https://yarnpkg.com/en/">yarn</a>:</p>
+      <pre><code class="fenced-code-block language-sh">$ yarn add enquirer</code></pre>
+      <p align="center">
+        <img
+          width="750"
+          alt="Install Enquirer with NPM"
+          src="https://raw..com/enquirer/enquirer/master/media/npm-install.gif"
+        />
+      </p>
+
+      <p>
+        <em
+          >(Requires Node.js 8.6 or higher. Please let us know if you need
+          support for an earlier version by creating an
+          <a href="../../issues/new">issue</a>.)</em
+        >
+      </p>
+      <br />
+
+      <h2 class="atx" id="❯-usage">❯ Usage</h2>
+      <h3 class="atx" id="single-prompt">Single prompt</h3>
+      <p>
+        The easiest way to get started with enquirer is to pass a
+        <a href="#prompt-options">question object</a> to the
+        <code>prompt</code> method.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'input'</span><span class="token punctuation">,</span>
+  name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your username?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// { username: 'jonschlinkert' }</span></code></pre>
+      <p>
+        <em
+          >(Examples with <code>await</code> need to be run inside an
+          <code>async</code> function)</em
+        >
+      </p>
+      <h3 class="atx" id="multiple-prompts">Multiple prompts</h3>
+      <p>
+        Pass an array of <a href="#prompt-options">"question" objects</a> to run
+        a series of prompts.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token string">'input'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+    message<span class="token operator">:</span> <span class="token string">'What is your name?'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token string">'input'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+    message<span class="token operator">:</span> <span class="token string">'What is your username?'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// { name: 'Edward Chan', username: 'edwardmchan' }</span></code></pre>
+      <h3 class="atx" id="different-ways-to-run-enquirer">
+        Different ways to run enquirer
+      </h3>
+      <h4 class="atx" id="1-by-importing-the-specific-built-in-prompt">
+        1. By importing the specific <code>built-in prompt</code>
+      </h4>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Confirm <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Confirm</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'question'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Did you like enquirer?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h4 class="atx" id="2-by-passing-the-options-to-prompt">
+        2. By passing the options to <code>prompt</code>
+      </h4>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'confirm'</span><span class="token punctuation">,</span>
+  name<span class="token operator">:</span> <span class="token string">'question'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Did you like enquirer?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        <strong>Jump to</strong>:
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a> · <a href="#-options">Options</a> ·
+        <a href="#-key-bindings">Key Bindings</a>
+      </p>
+      <br />
+
+      <h2 class="atx" id="❯-enquirer">❯ Enquirer</h2>
+      <p><strong>Enquirer is a prompt runner</strong></p>
+      <p>
+        Add Enquirer to your JavaScript project with following line of code.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> Enquirer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        The main export of this library is the <code>Enquirer</code> class,
+        which has methods and features designed to simplify running prompts.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> question <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token string">'input'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+    message<span class="token operator">:</span> <span class="token string">'What is your username?'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token string">'password'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'password'</span><span class="token punctuation">,</span>
+    message<span class="token operator">:</span> <span class="token string">'What is your password?'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> answers <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">prompt</span><span class="token punctuation">(</span>question<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>answers<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        <strong>Prompts control how values are rendered and returned</strong>
+      </p>
+      <p>
+        Each individual prompt is a class with special features and
+        functionality for rendering the types of values you want to show users
+        in the terminal, and subsequently returning the types of values you need
+        to use in your application.
+      </p>
+      <p><strong>How can I customize prompts?</strong></p>
+      <p>
+        Below in this guide you will find information about creating
+        <a href="#-custom-prompts">custom prompts</a>. For now, we'll focus on
+        how to customize an existing prompt.
+      </p>
+      <p>
+        All of the individual <a href="#built-in-prompts">prompt classes</a> in
+        this library are exposed as static properties on Enquirer. This allows
+        them to be used directly without using <code>enquirer.prompt()</code>.
+      </p>
+      <p>
+        Use this approach if you need to modify a prompt instance, or listen for
+        events on the prompt.
+      </p>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Input <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Input</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your username?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Username:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h3 class="atx" id="enquirer-api">Enquirer API</h3>
+      <h3 class="atx" id="enquirer"><a href="index.js#L20">Enquirer</a></h3>
+      <p>Create an instance of <code>Enquirer</code>.</p>
+      <p><strong>Params</strong></p>
+      <ul>
+        <li>
+          <code>options</code> <strong>{Object}</strong>: (optional) Options to
+          use with all prompts.
+        </li>
+        <li>
+          <code>answers</code> <strong>{Object}</strong>: (optional) Answers
+          object to initialize with.
+        </li>
+      </ul>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> Enquirer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> enquirer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Enquirer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h3 class="atx" id="register"><a href="index.js#L42">register()</a></h3>
+      <p>Register a custom prompt type.</p>
+      <p><strong>Params</strong></p>
+      <ul>
+        <li><code>type</code> <strong>{String}</strong></li>
+        <li>
+          <code>fn</code> <strong>{Function|Prompt}</strong>:
+          <code>Prompt</code> class, or a function that returns a
+          <code>Prompt</code> class.
+        </li>
+        <li>
+          <code>returns</code> <strong>{Object}</strong>: Returns the Enquirer
+          instance
+        </li>
+      </ul>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> Enquirer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> enquirer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Enquirer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+enquirer<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'customType'</span><span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./custom-prompt'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h3 class="atx" id="prompt"><a href="index.js#L78">prompt()</a></h3>
+      <p>
+        Prompt function that takes a "question" object or array of question
+        objects, and returns an object with responses from the user.
+      </p>
+      <p><strong>Params</strong></p>
+      <ul>
+        <li>
+          <code>questions</code> <strong>{Array|Object}</strong>: Options
+          objects for one or more prompts to run.
+        </li>
+        <li>
+          <code>returns</code> <strong>{Promise}</strong>: Promise that returns
+          an "answers" object with the user's responses.
+        </li>
+      </ul>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> Enquirer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> enquirer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Enquirer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> enquirer<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'input'</span><span class="token punctuation">,</span>
+  name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your username?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h3 class="atx" id="use"><a href="index.js#L160">use()</a></h3>
+      <p>Use an enquirer plugin.</p>
+      <p><strong>Params</strong></p>
+      <ul>
+        <li>
+          <code>plugin</code> <strong>{Function}</strong>: Plugin function that
+          takes an instance of Enquirer.
+        </li>
+        <li>
+          <code>returns</code> <strong>{Object}</strong>: Returns the Enquirer
+          instance.
+        </li>
+      </ul>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> Enquirer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> enquirer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Enquirer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">plugin</span> <span class="token operator">=</span> <span class="token parameter">enquirer</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">// do stuff to enquire instance</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+enquirer<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>plugin<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h3 class="atx" id="enquirerprompt">
+        <a href="index.js#L210">Enquirer#prompt</a>
+      </h3>
+      <p>
+        Prompt function that takes a "question" object or array of question
+        objects, and returns an object with responses from the user.
+      </p>
+      <p><strong>Params</strong></p>
+      <ul>
+        <li>
+          <code>questions</code> <strong>{Array|Object}</strong>: Options
+          objects for one or more prompts to run.
+        </li>
+        <li>
+          <code>returns</code> <strong>{Promise}</strong>: Promise that returns
+          an "answers" object with the user's responses.
+        </li>
+      </ul>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'input'</span><span class="token punctuation">,</span>
+  name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your username?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <br />
+
+      <h2 class="atx" id="❯-prompts">❯ Prompts</h2>
+      <p>
+        This section is about Enquirer's prompts: what they look like, how they
+        work, how to run them, available options, and how to customize the
+        prompts or create your own prompt concept.
+      </p>
+      <p><strong>Getting started with Enquirer's prompts</strong></p>
+      <ul>
+        <li>
+          <a href="#prompt">Prompt</a> - The base <code>Prompt</code> class used
+          by other prompts
+          <ul>
+            <li><a href="#prompt-options">Prompt Options</a></li>
+          </ul>
+        </li>
+        <li><a href="#-built-in-prompts">Built-in prompts</a></li>
+        <li>
+          <a href="#prompt-types">Prompt Types</a> - The base
+          <code>Prompt</code> class used by other prompts
+        </li>
+        <li>
+          <a href="#-custom-prompts">Custom Prompts</a> - Enquirer 2.0
+          introduced the concept of prompt "types", with the goal of making
+          custom prompts easier than ever to create and use.
+        </li>
+      </ul>
+      <h3 class="atx" id="prompt-1">Prompt</h3>
+      <p>
+        The base <code>Prompt</code> class is used to create all other prompts.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">MyCustomPrompt</span> <span class="token keyword">extends</span> <span class="token class-name">Prompt</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+      <p>
+        See the documentation for
+        <a href="#-custom-prompts">creating custom prompts</a> to learn more
+        about how this works.
+      </p>
+      <h4 class="atx" id="prompt-options">Prompt Options</h4>
+      <p>
+        Each prompt takes an options object (aka "question" object), that
+        implements the following interface:
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token punctuation">{</span>
+  <span class="token comment">// required</span>
+  type<span class="token operator">:</span> string <span class="token operator">|</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+  name<span class="token operator">:</span> string <span class="token operator">|</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> string <span class="token operator">|</span> <span class="token keyword">function</span> <span class="token operator">|</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+
+  <span class="token comment">// optional</span>
+  skip<span class="token operator">:</span> boolean <span class="token operator">|</span> <span class="token keyword">function</span> <span class="token operator">|</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+  initial<span class="token operator">:</span> string <span class="token operator">|</span> <span class="token keyword">function</span> <span class="token operator">|</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">format</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token operator">|</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">result</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token operator">|</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">validate</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token operator">|</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+      <p>Each property of the options object is described below:</p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Property</strong></th>
+            <th><strong>Required?</strong></th>
+            <th><strong>Type</strong></th>
+            <th><strong>Description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td>yes</td>
+            <td><code>string|function</code></td>
+            <td>
+              Enquirer uses this value to determine the type of prompt to run,
+              but it's optional when prompts are run directly.
+            </td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td>yes</td>
+            <td><code>string|function</code></td>
+            <td>
+              Used as the key for the answer on the returned values (answers)
+              object.
+            </td>
+          </tr>
+          <tr>
+            <td><code>message</code></td>
+            <td>yes</td>
+            <td><code>string|function</code></td>
+            <td>
+              The message to display when the prompt is rendered in the
+              terminal.
+            </td>
+          </tr>
+          <tr>
+            <td><code>skip</code></td>
+            <td>no</td>
+            <td><code>boolean|function</code></td>
+            <td>If <code>true</code> it will not ask that prompt.</td>
+          </tr>
+          <tr>
+            <td><code>initial</code></td>
+            <td>no</td>
+            <td><code>string|function</code></td>
+            <td>
+              The default value to return if the user does not supply a value.
+            </td>
+          </tr>
+          <tr>
+            <td><code>format</code></td>
+            <td>no</td>
+            <td><code>function</code></td>
+            <td>Function to format user input in the terminal.</td>
+          </tr>
+          <tr>
+            <td><code>result</code></td>
+            <td>no</td>
+            <td><code>function</code></td>
+            <td>
+              Function to format the final submitted value before it's returned.
+            </td>
+          </tr>
+          <tr>
+            <td><code>validate</code></td>
+            <td>no</td>
+            <td><code>function</code></td>
+            <td>
+              Function to validate the submitted value before it's returned.
+              This function may return a boolean or a string. If a string is
+              returned it will be used as the validation error message.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>Example usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> question <span class="token operator">=</span> <span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'input'</span><span class="token punctuation">,</span>
+  name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your username?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">prompt</span><span class="token punctuation">(</span>question<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <br />
+
+      <h2 class="atx" id="❯-built-in-prompts">❯ Built-in prompts</h2>
+      <ul>
+        <li><a href="#autocomplete-prompt">AutoComplete Prompt</a></li>
+        <li><a href="#basicauth-prompt">BasicAuth Prompt</a></li>
+        <li><a href="#confirm-prompt">Confirm Prompt</a></li>
+        <li><a href="#form-prompt">Form Prompt</a></li>
+        <li><a href="#input-prompt">Input Prompt</a></li>
+        <li><a href="#invisible-prompt">Invisible Prompt</a></li>
+        <li><a href="#list-prompt">List Prompt</a></li>
+        <li><a href="#multiselect-prompt">MultiSelect Prompt</a></li>
+        <li><a href="#numeral-prompt">Numeral Prompt</a></li>
+        <li><a href="#password-prompt">Password Prompt</a></li>
+        <li><a href="#quiz-prompt">Quiz Prompt</a></li>
+        <li><a href="#survey-prompt">Survey Prompt</a></li>
+        <li><a href="#scale-prompt">Scale Prompt</a></li>
+        <li><a href="#select-prompt">Select Prompt</a></li>
+        <li><a href="#sort-prompt">Sort Prompt</a></li>
+        <li><a href="#snippet-prompt">Snippet Prompt</a></li>
+        <li><a href="#toggle-prompt">Toggle Prompt</a></li>
+      </ul>
+      <h3 class="atx" id="autocomplete-prompt">AutoComplete Prompt</h3>
+      <p>
+        Prompt that auto-completes as the user types, and returns the selected
+        value as a string.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer AutoComplete Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/autocomplete-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> AutoComplete <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AutoComplete</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'flavor'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Pick your favorite flavor'</span><span class="token punctuation">,</span>
+  limit<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+  initial<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">'Almond'</span><span class="token punctuation">,</span>
+    <span class="token string">'Apple'</span><span class="token punctuation">,</span>
+    <span class="token string">'Banana'</span><span class="token punctuation">,</span>
+    <span class="token string">'Blackberry'</span><span class="token punctuation">,</span>
+    <span class="token string">'Blueberry'</span><span class="token punctuation">,</span>
+    <span class="token string">'Cherry'</span><span class="token punctuation">,</span>
+    <span class="token string">'Chocolate'</span><span class="token punctuation">,</span>
+    <span class="token string">'Cinnamon'</span><span class="token punctuation">,</span>
+    <span class="token string">'Coconut'</span><span class="token punctuation">,</span>
+    <span class="token string">'Cranberry'</span><span class="token punctuation">,</span>
+    <span class="token string">'Grape'</span><span class="token punctuation">,</span>
+    <span class="token string">'Nougat'</span><span class="token punctuation">,</span>
+    <span class="token string">'Orange'</span><span class="token punctuation">,</span>
+    <span class="token string">'Pear'</span><span class="token punctuation">,</span>
+    <span class="token string">'Pineapple'</span><span class="token punctuation">,</span>
+    <span class="token string">'Raspberry'</span><span class="token punctuation">,</span>
+    <span class="token string">'Strawberry'</span><span class="token punctuation">,</span>
+    <span class="token string">'Vanilla'</span><span class="token punctuation">,</span>
+    <span class="token string">'Watermelon'</span><span class="token punctuation">,</span>
+    <span class="token string">'Wintergreen'</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>AutoComplete Options</strong></p>
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>highlight</code></td>
+            <td><code>function</code></td>
+            <td><code>dim</code> version of primary style</td>
+            <td>
+              The color to use when "highlighting" characters in the list that
+              match user input.
+            </td>
+          </tr>
+          <tr>
+            <td><code>multiple</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Allow multiple choices to be selected.</td>
+          </tr>
+          <tr>
+            <td><code>suggest</code></td>
+            <td><code>function</code></td>
+            <td>
+              Greedy match, returns true if choice message contains input
+              string.
+            </td>
+            <td>
+              Function that filters choices. Takes user input and a choices
+              array, and returns a list of matching choices.
+            </td>
+          </tr>
+          <tr>
+            <td><code>initial</code></td>
+            <td><code>number</code></td>
+            <td>0</td>
+            <td>Preselected item in the list of choices.</td>
+          </tr>
+          <tr>
+            <td><code>footer</code></td>
+            <td><code>function</code></td>
+            <td>None</td>
+            <td>
+              Function that displays
+              <a
+                href="https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10"
+                >footer text</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#select-prompt">Select</a></li>
+        <li><a href="#multiselect-prompt">MultiSelect</a></li>
+        <li><a href="#survey-prompt">Survey</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="basicauth-prompt">BasicAuth Prompt</h3>
+      <p>
+        Prompt that asks for username and password to authenticate the user. The
+        default implementation of <code>authenticate</code> function in
+        <code>BasicAuth</code> prompt is to compare the username and password
+        with the values supplied while running the prompt. The implementer is
+        expected to override the <code>authenticate</code> function with a
+        custom logic such as making an API request to a server to authenticate
+        the username and password entered and expect a token back.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer BasicAuth Prompt"
+          src="https://user-images..com/13731210/61570485-7ffd9c00-aaaa-11e9-857a-d47dc7008284.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> BasicAuth <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BasicAuth</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'password'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Please enter your password'</span><span class="token punctuation">,</span>
+  username<span class="token operator">:</span> <span class="token string">'rajat-sr'</span><span class="token punctuation">,</span>
+  password<span class="token operator">:</span> <span class="token string">'123'</span><span class="token punctuation">,</span>
+  showPassword<span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ prompt
+  <span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="confirm-prompt">Confirm Prompt</h3>
+      <p>Prompt that returns <code>true</code> or <code>false</code>.</p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Confirm Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/confirm-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Confirm <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Confirm</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'question'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Want to answer?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#input-prompt">Input</a></li>
+        <li><a href="#numeral-prompt">Numeral</a></li>
+        <li><a href="#password-prompt">Password</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="form-prompt">Form Prompt</h3>
+      <p>
+        Prompt that allows the user to enter and submit multiple values on a
+        single terminal screen.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Form Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/form-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Form <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Form</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'user'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Please provide the following information:'</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'firstname'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'First Name'</span><span class="token punctuation">,</span> initial<span class="token operator">:</span> <span class="token string">'Jon'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'lastname'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Last Name'</span><span class="token punctuation">,</span> initial<span class="token operator">:</span> <span class="token string">'Schlinkert'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'GitHub username'</span><span class="token punctuation">,</span> initial<span class="token operator">:</span> <span class="token string">'jonschlinkert'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#input-prompt">Input</a></li>
+        <li><a href="#survey-prompt">Survey</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="input-prompt">Input Prompt</h3>
+      <p>Prompt that takes user input and returns a string.</p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Input Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/input-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Input <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Input</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your username?'</span><span class="token punctuation">,</span>
+  initial<span class="token operator">:</span> <span class="token string">'jonschlinkert'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>log<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        You can use
+        <a href="https://github.com/jonschlinkert/data-store">data-store</a> to
+        store
+        <a
+          href="https://github.com/enquirer/enquirer/blob/master/examples/input/option-history.js"
+          >input history</a
+        >
+        that the user can cycle through (see
+        <a
+          href="https://github.com/enquirer/enquirer/blob/8407dc3579123df5e6e20215078e33bb605b0c37/lib/prompts/input.js"
+          >source</a
+        >).
+      </p>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#confirm-prompt">Confirm</a></li>
+        <li><a href="#numeral-prompt">Numeral</a></li>
+        <li><a href="#password-prompt">Password</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="invisible-prompt">Invisible Prompt</h3>
+      <p>
+        Prompt that takes user input, hides it from the terminal, and returns a
+        string.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Invisible Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/invisible-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Invisible <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Invisible</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'secret'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your secret?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> secret<span class="token operator">:</span> answer <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#password-prompt">Password</a></li>
+        <li><a href="#input-prompt">Input</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="list-prompt">List Prompt</h3>
+      <p>
+        Prompt that returns a list of values, created by splitting the user
+        input. The default split character is <code>,</code> with optional
+        trailing whitespace.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer List Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/list-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> List <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">List</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'keywords'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Type comma-separated keywords'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#sort-prompt">Sort</a></li>
+        <li><a href="#select-prompt">Select</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="multiselect-prompt">MultiSelect Prompt</h3>
+      <p>
+        Prompt that allows the user to select multiple items from a list of
+        options.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer MultiSelect Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/multiselect-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> MultiSelect <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MultiSelect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'value'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Pick your favorite colors'</span><span class="token punctuation">,</span>
+  limit<span class="token operator">:</span> <span class="token number">7</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'aqua'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#00ffff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'black'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#000000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#0000ff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'fuchsia'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ff00ff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'gray'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#808080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'green'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#008000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'lime'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#00ff00'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'maroon'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#800000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'navy'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#000080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'olive'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#808000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'purple'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#800080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'red'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ff0000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'silver'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#c0c0c0'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'teal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#008080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'white'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ffffff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'yellow'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ffff00'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Answer: ['aqua', 'blue', 'fuchsia']</span></code></pre>
+      <p><strong>Example key-value pairs</strong></p>
+      <p>
+        Optionally, pass a <code>result</code> function and use the
+        <code>.map</code> method to return an object of key-value pairs of the
+        selected names and values:
+        <a href="./examples/multiselect/option-result.js">example</a>
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> MultiSelect <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MultiSelect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'value'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Pick your favorite colors'</span><span class="token punctuation">,</span>
+  limit<span class="token operator">:</span> <span class="token number">7</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'aqua'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#00ffff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'black'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#000000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#0000ff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'fuchsia'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ff00ff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'gray'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#808080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'green'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#008000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'lime'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#00ff00'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'maroon'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#800000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'navy'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#000080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'olive'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#808000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'purple'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#800080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'red'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ff0000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'silver'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#c0c0c0'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'teal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#008080'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'white'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ffffff'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'yellow'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#ffff00'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token function">result</span><span class="token punctuation">(</span><span class="token parameter">names</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>names<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Answer: { aqua: '#00ffff', blue: '#0000ff', fuchsia: '#ff00ff' }</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#autocomplete-prompt">AutoComplete</a></li>
+        <li><a href="#select-prompt">Select</a></li>
+        <li><a href="#survey-prompt">Survey</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="numeral-prompt">Numeral Prompt</h3>
+      <p>Prompt that takes a number as input.</p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Numeral Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/numeral-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> NumberPrompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NumberPrompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'number'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Please enter a number'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#input-prompt">Input</a></li>
+        <li><a href="#confirm-prompt">Confirm</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="password-prompt">Password Prompt</h3>
+      <p>
+        Prompt that takes user input and masks it in the terminal. Also see the
+        <a href="#invisible-prompt">invisible prompt</a>
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Password Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/password-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Password <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Password</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'password'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'What is your password?'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#input-prompt">Input</a></li>
+        <li><a href="#invisible-prompt">Invisible</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="quiz-prompt">Quiz Prompt</h3>
+      <p>Prompt that allows the user to play multiple-choice quiz questions.</p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Quiz Prompt"
+          src="https://user-images..com/13731210/61567561-891d4780-aa6f-11e9-9b09-3d504abd24ed.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Quiz <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Quiz</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'countries'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'How many countries are there in the world?'</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'165'</span><span class="token punctuation">,</span> <span class="token string">'175'</span><span class="token punctuation">,</span> <span class="token string">'185'</span><span class="token punctuation">,</span> <span class="token string">'195'</span><span class="token punctuation">,</span> <span class="token string">'205'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  correctChoice<span class="token operator">:</span> <span class="token number">3</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ prompt
+  <span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>answer<span class="token punctuation">.</span>correct<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Correct!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Wrong! Correct answer is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>answer<span class="token punctuation">.</span>correctAnswer<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Quiz Options</strong></p>
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>choices</code></td>
+            <td><code>array</code></td>
+            <td>Yes</td>
+            <td>The list of possible answers to the quiz question.</td>
+          </tr>
+          <tr>
+            <td><code>correctChoice</code></td>
+            <td><code>number</code></td>
+            <td>Yes</td>
+            <td>
+              Index of the correct choice from the <code>choices</code> array.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="survey-prompt">Survey Prompt</h3>
+      <p>
+        Prompt that allows the user to provide feedback for a list of questions.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Survey Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/survey-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Survey <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Survey</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'experience'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Please rate your experience'</span><span class="token punctuation">,</span>
+   scale<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Strongly Disagree'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Disagree'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Neutral'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'4'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Agree'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'5'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Strongly Agree'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  margin<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'interface'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website has a friendly interface.'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'navigation'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website is easy to navigate.'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'images'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website usually has good images.'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'upload'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website makes it easy to upload images.'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'colors'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website has a pleasing color palette.'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'ANSWERS:'</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#scale-prompt">Scale</a></li>
+        <li><a href="#snippet-prompt">Snippet</a></li>
+        <li><a href="#select-prompt">Select</a></li>
+      </ul>
+      <hr />
+      <h3 class="atx" id="scale-prompt">Scale Prompt</h3>
+      <p>
+        A more compact version of the
+        <a href="#survey-prompt">Survey prompt</a>, the Scale prompt allows the
+        user to quickly provide feedback using a
+        <a href="https://en.wikipedia.org/wiki/Likert_scale">Likert Scale</a>.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Scale Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/scale-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Scale <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Scale</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'experience'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Please rate your experience'</span><span class="token punctuation">,</span>
+  scale<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Strongly Disagree'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Disagree'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Neutral'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'4'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Agree'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'5'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Strongly Agree'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  margin<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'interface'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website has a friendly interface.'</span><span class="token punctuation">,</span>
+      initial<span class="token operator">:</span> <span class="token number">2</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'navigation'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website is easy to navigate.'</span><span class="token punctuation">,</span>
+      initial<span class="token operator">:</span> <span class="token number">2</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'images'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website usually has good images.'</span><span class="token punctuation">,</span>
+      initial<span class="token operator">:</span> <span class="token number">2</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'upload'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website makes it easy to upload images.'</span><span class="token punctuation">,</span>
+      initial<span class="token operator">:</span> <span class="token number">2</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'colors'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'The website has a pleasing color palette.'</span><span class="token punctuation">,</span>
+      initial<span class="token operator">:</span> <span class="token number">2</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'ANSWERS:'</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#autocomplete-prompt">AutoComplete</a></li>
+        <li><a href="#select-prompt">Select</a></li>
+        <li><a href="#survey-prompt">Survey</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="select-prompt">Select Prompt</h3>
+      <p>Prompt that allows the user to select from a list of options.</p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Select Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/select-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Select <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Select</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'color'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Pick a flavor'</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token string">'grape'</span><span class="token punctuation">,</span> <span class="token string">'watermelon'</span><span class="token punctuation">,</span> <span class="token string">'cherry'</span><span class="token punctuation">,</span> <span class="token string">'orange'</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#autocomplete-prompt">AutoComplete</a></li>
+        <li><a href="#multiselect-prompt">MultiSelect</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="sort-prompt">Sort Prompt</h3>
+      <p>Prompt that allows the user to sort items in a list.</p>
+      <p><strong>Example</strong></p>
+      <p>
+        In this
+        <a
+          href="https://github.com/enquirer/enquirer/raw/master/examples/sort/prompt.js"
+          >example</a
+        >, custom styling is applied to the returned values to make it easier to
+        see what's happening.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Sort Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/sort-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> colors <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'ansi-colors'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> Sort <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Sort</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'colors'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Sort the colors in order of preference'</span><span class="token punctuation">,</span>
+  hint<span class="token operator">:</span> <span class="token string">'Top is best, bottom is worst'</span><span class="token punctuation">,</span>
+  numbered<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'red'</span><span class="token punctuation">,</span> <span class="token string">'white'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">,</span> <span class="token string">'cyan'</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">n</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    name<span class="token operator">:</span> n<span class="token punctuation">,</span>
+    message<span class="token operator">:</span> colors<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">answer <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>answer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Your preferred order of colors is:'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>answer<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">key</span> <span class="token operator">=&gt;</span> colors<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#list-prompt">List</a></li>
+        <li><a href="#select-prompt">Select</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="snippet-prompt">Snippet Prompt</h3>
+      <p>
+        Prompt that allows the user to replace placeholders in a snippet of code
+        or text.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Prompts"
+          src="https://raw..com/enquirer/enquirer/master/media/snippet-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> semver <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'semver'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> Snippet <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Snippet</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Fill out the fields in package.json'</span><span class="token punctuation">,</span>
+  required<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  fields<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'author_name'</span><span class="token punctuation">,</span>
+      message<span class="token operator">:</span> <span class="token string">'Author Name'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token string">'version'</span><span class="token punctuation">,</span>
+      <span class="token function">validate</span><span class="token punctuation">(</span><span class="token parameter">value<span class="token punctuation">,</span> state<span class="token punctuation">,</span> item<span class="token punctuation">,</span> index</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token operator">&amp;&amp;</span> item<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'version'</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>semver<span class="token punctuation">.</span><span class="token function">valid</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> prompt<span class="token punctuation">.</span>styles<span class="token punctuation">.</span><span class="token function">danger</span><span class="token punctuation">(</span><span class="token string">'version should be a valid semver value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  template<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">{
+  "name": "\${name}",
+  "description": "\${description}",
+  "version": "\${version}",
+  "homepage": "https://github.com/\${username}/\${name}",
+  "author": "\${author_name} (https://github.com/\${username})",
+  "repository": "\${username}/\${name}",
+  "license": "\${license:ISC}"
+}
+</span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">.</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#survey-prompt">Survey</a></li>
+        <li><a href="#autocomplete-prompt">AutoComplete</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="toggle-prompt">Toggle Prompt</h3>
+      <p>
+        Prompt that allows the user to toggle between two values then returns
+        <code>true</code> or <code>false</code>.
+      </p>
+      <p align="center">
+        <img
+          width="750"
+          alt="Enquirer Toggle Prompt"
+          src="https://raw..com/enquirer/enquirer/master/media/toggle-prompt.gif"
+        />
+      </p>
+
+      <p><strong>Example Usage</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Toggle <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Toggle</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  message<span class="token operator">:</span> <span class="token string">'Want to answer?'</span><span class="token punctuation">,</span>
+  enabled<span class="token operator">:</span> <span class="token string">'Yep'</span><span class="token punctuation">,</span>
+  disabled<span class="token operator">:</span> <span class="token string">'Nope'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Related prompts</strong></p>
+      <ul>
+        <li><a href="#confirm-prompt">Confirm</a></li>
+        <li><a href="#input-prompt">Input</a></li>
+        <li><a href="#sort-prompt">Sort</a></li>
+      </ul>
+      <p>
+        <strong>↑ back to:</strong>
+        <a href="#-getting-started">Getting Started</a> ·
+        <a href="#-prompts">Prompts</a>
+      </p>
+      <hr />
+      <h3 class="atx" id="prompt-types">Prompt Types</h3>
+      <p>There are 5 (soon to be 6!) type classes:</p>
+      <ul>
+        <li>
+          <a href="#arrayprompt">ArrayPrompt</a>
+          <ul>
+            <li><a href="#options">Options</a></li>
+            <li><a href="#properties">Properties</a></li>
+            <li><a href="#methods">Methods</a></li>
+            <li><a href="#choices">Choices</a></li>
+            <li><a href="#defining-choices">Defining choices</a></li>
+            <li><a href="#choice-properties">Choice properties</a></li>
+            <li><a href="#related-prompts">Related prompts</a></li>
+          </ul>
+        </li>
+        <li><a href="#authprompt">AuthPrompt</a></li>
+        <li><a href="#booleanprompt">BooleanPrompt</a></li>
+        <li>DatePrompt (Coming Soon!)</li>
+        <li><a href="#numberprompt">NumberPrompt</a></li>
+        <li><a href="#stringprompt">StringPrompt</a></li>
+      </ul>
+      <p>
+        Each type is a low-level class that may be used as a starting point for
+        creating higher level prompts. Continue reading to learn how.
+      </p>
+      <h3 class="atx" id="arrayprompt">ArrayPrompt</h3>
+      <p>
+        The <code>ArrayPrompt</code> class is used for creating prompts that
+        display a list of choices in the terminal. For example, Enquirer uses
+        this class as the basis for the <a href="#select">Select</a> and
+        <a href="#survey">Survey</a> prompts.
+      </p>
+      <h4 class="atx" id="options">Options</h4>
+      <p>
+        In addition to the <a href="#options">options</a> available to all
+        prompts, Array prompts also support the following options.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Option</strong></th>
+            <th><strong>Required?</strong></th>
+            <th><strong>Type</strong></th>
+            <th><strong>Description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>autofocus</code></td>
+            <td><code>no</code></td>
+            <td><code>string|number</code></td>
+            <td>
+              The index or name of the choice that should have focus when the
+              prompt loads. Only one choice may have focus at a time.
+            </td>
+          </tr>
+          <tr>
+            <td><code>stdin</code></td>
+            <td><code>no</code></td>
+            <td><code>stream</code></td>
+            <td>
+              The input stream to use for emitting keypress events. Defaults to
+              <code>process.stdin</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>stdout</code></td>
+            <td><code>no</code></td>
+            <td><code>stream</code></td>
+            <td>
+              The output stream to use for writing the prompt to the terminal.
+              Defaults to <code>process.stdout</code>.
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 class="atx" id="properties">Properties</h4>
+      <p>Array prompts have the following instance properties and getters.</p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Property name</strong></th>
+            <th><strong>Type</strong></th>
+            <th><strong>Description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>choices</code></td>
+            <td><code>array</code></td>
+            <td>
+              Array of choices that have been normalized from choices passed on
+              the prompt options.
+            </td>
+          </tr>
+          <tr>
+            <td><code>cursor</code></td>
+            <td><code>number</code></td>
+            <td>
+              Position of the cursor relative to the
+              <em>user input (string)</em>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>enabled</code></td>
+            <td><code>array</code></td>
+            <td>Returns an array of enabled choices.</td>
+          </tr>
+          <tr>
+            <td><code>focused</code></td>
+            <td><code>array</code></td>
+            <td>
+              Returns the currently selected choice in the visible list of
+              choices. This is similar to the concept of focus in HTML and CSS.
+              Focused choices are always visible (on-screen). When a list of
+              choices is longer than the list of visible choices, and an
+              off-screen choice is <em>focused</em>, the list will scroll to the
+              focused choice and re-render.
+            </td>
+          </tr>
+          <tr>
+            <td><code>focused</code></td>
+            <td>
+              Gets the currently selected choice. Equivalent to
+              <code>prompt.choices[prompt.index]</code>.
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><code>index</code></td>
+            <td><code>number</code></td>
+            <td>
+              Position of the pointer in the
+              <em>visible list (array) of choices</em>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>limit</code></td>
+            <td><code>number</code></td>
+            <td>The number of choices to display on-screen.</td>
+          </tr>
+          <tr>
+            <td><code>selected</code></td>
+            <td><code>array</code></td>
+            <td>
+              Either a list of enabled choices (when
+              <code>options.multiple</code> is true) or the currently focused
+              choice.
+            </td>
+          </tr>
+          <tr>
+            <td><code>visible</code></td>
+            <td><code>string</code></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 class="atx" id="methods">Methods</h4>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Method</strong></th>
+            <th><strong>Description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>pointer()</code></td>
+            <td>
+              Returns the visual symbol to use to identify the choice that
+              currently has focus. The <code>❯</code> symbol is often used for
+              this. The pointer is not always visible, as with the
+              <code>autocomplete</code> prompt.
+            </td>
+          </tr>
+          <tr>
+            <td><code>indicator()</code></td>
+            <td>
+              Returns the visual symbol that indicates whether or not a choice
+              is checked/enabled.
+            </td>
+          </tr>
+          <tr>
+            <td><code>focus()</code></td>
+            <td>Sets focus on a choice, if it can be focused.</td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 class="atx" id="choices">Choices</h4>
+      <p>
+        Array prompts support the <code>choices</code> option, which is the
+        array of choices users will be able to select from when rendered in the
+        terminal.
+      </p>
+      <p><strong>Type</strong>: <code>string|object</code></p>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> questions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">'select'</span><span class="token punctuation">,</span>
+  name<span class="token operator">:</span> <span class="token string">'color'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Favorite color?'</span><span class="token punctuation">,</span>
+  initial<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'red'</span><span class="token punctuation">,</span>   message<span class="token operator">:</span> <span class="token string">'Red'</span><span class="token punctuation">,</span>   value<span class="token operator">:</span> <span class="token string">'#ff0000'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">//&lt;= choice object</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'green'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Green'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'#00ff00'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">//&lt;= choice object</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>  message<span class="token operator">:</span> <span class="token string">'Blue'</span><span class="token punctuation">,</span>  value<span class="token operator">:</span> <span class="token string">'#0000ff'</span> <span class="token punctuation">}</span>  <span class="token comment">//&lt;= choice object</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> answers <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">prompt</span><span class="token punctuation">(</span>questions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer:'</span><span class="token punctuation">,</span> answers<span class="token punctuation">.</span>color<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h4 class="atx" id="defining-choices">Defining choices</h4>
+      <p>
+        Whether defined as a string or object, choices are normalized to the
+        following interface:
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> string<span class="token punctuation">;</span>
+  message<span class="token operator">:</span> string <span class="token operator">|</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+  value<span class="token operator">:</span> string <span class="token operator">|</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+  hint<span class="token operator">:</span> string <span class="token operator">|</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+  disabled<span class="token operator">:</span> boolean <span class="token operator">|</span> string <span class="token operator">|</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> question <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'fruit'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Favorite fruit?'</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'Apple'</span><span class="token punctuation">,</span> <span class="token string">'Orange'</span><span class="token punctuation">,</span> <span class="token string">'Raspberry'</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+      <p>Normalizes to the following when the prompt is run:</p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> question <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'fruit'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Favorite fruit?'</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'Apple'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Apple'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'Apple'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'Orange'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Orange'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'Orange'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'Raspberry'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'Raspberry'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'Raspberry'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+      <h4 class="atx" id="choice-properties">Choice properties</h4>
+      <p>
+        The following properties are supported on <code>choice</code> objects.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Option</strong></th>
+            <th><strong>Type</strong></th>
+            <th><strong>Description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>string</code></td>
+            <td>The unique key to identify a choice</td>
+          </tr>
+          <tr>
+            <td><code>message</code></td>
+            <td><code>string</code></td>
+            <td>
+              The message to display in the terminal. <code>name</code> is used
+              when this is undefined.
+            </td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string</code></td>
+            <td>
+              Value to associate with the choice. Useful for creating key-value
+              pairs from user choices. <code>name</code> is used when this is
+              undefined.
+            </td>
+          </tr>
+          <tr>
+            <td><code>choices</code></td>
+            <td><code>array</code></td>
+            <td>Array of "child" choices.</td>
+          </tr>
+          <tr>
+            <td><code>hint</code></td>
+            <td><code>string</code></td>
+            <td>Help message to display next to a choice.</td>
+          </tr>
+          <tr>
+            <td><code>role</code></td>
+            <td><code>string</code></td>
+            <td>
+              Determines how the choice will be displayed. Currently the only
+              role supported is <code>separator</code>. Additional roles may be
+              added in the future (like <code>heading</code>, etc). Please
+              create a [feature request]
+            </td>
+          </tr>
+          <tr>
+            <td><code>enabled</code></td>
+            <td><code>boolean</code></td>
+            <td>
+              Enabled a choice by default. This is only supported when
+              <code>options.multiple</code> is true or on prompts that support
+              multiple choices, like <a href="#-multiselect">MultiSelect</a>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean|string</code></td>
+            <td>
+              Disable a choice so that it cannot be selected. This value may
+              either be <code>true</code>, <code>false</code>, or a message to
+              display.
+            </td>
+          </tr>
+          <tr>
+            <td><code>indicator</code></td>
+            <td><code>string|function</code></td>
+            <td>
+              Custom indicator to render for a choice (like a check or radio
+              button).
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 class="atx" id="related-prompts">Related prompts</h4>
+      <ul>
+        <li><a href="#autocomplete-prompt">AutoComplete</a></li>
+        <li><a href="#form-prompt">Form</a></li>
+        <li><a href="#multiselect-prompt">MultiSelect</a></li>
+        <li><a href="#select-prompt">Select</a></li>
+        <li><a href="#survey-prompt">Survey</a></li>
+      </ul>
+      <hr />
+      <h3 class="atx" id="authprompt">AuthPrompt</h3>
+      <p>
+        The <code>AuthPrompt</code> is used to create prompts to log in user
+        using any authentication method. For example, Enquirer uses this class
+        as the basis for the <a href="#basicauth-prompt">BasicAuth Prompt</a>.
+        You can also find prompt examples in <code>examples/auth/</code> folder
+        that utilizes <code>AuthPrompt</code> to create OAuth based
+        authentication prompt or a prompt that authenticates using time-based
+        OTP, among others.
+      </p>
+      <p>
+        <code>AuthPrompt</code> has a factory function that creates an instance
+        of <code>AuthPrompt</code> class and it expects an
+        <code>authenticate</code> function, as an argument, which overrides the
+        <code>authenticate</code> function of the <code>AuthPrompt</code> class.
+      </p>
+      <h4 class="atx" id="methods-1">Methods</h4>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Method</strong></th>
+            <th><strong>Description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>authenticate()</code></td>
+            <td>
+              Contain all the authentication logic. This function should be
+              overridden to implement custom authentication logic. The default
+              <code>authenticate</code> function throws an error if no other
+              function is provided.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 class="atx" id="choices-1">Choices</h4>
+      <p>
+        Auth prompt supports the <code>choices</code> option, which is the
+        similar to the choices used in <a href="#form-prompt">Form Prompt</a>.
+      </p>
+      <p><strong>Example</strong></p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> AuthPrompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">authenticate</span><span class="token punctuation">(</span><span class="token parameter">value<span class="token punctuation">,</span> state</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">.</span>username <span class="token operator">===</span> <span class="token keyword">this</span><span class="token punctuation">.</span>options<span class="token punctuation">.</span>username <span class="token operator">&amp;&amp;</span> value<span class="token punctuation">.</span>password <span class="token operator">===</span> <span class="token keyword">this</span><span class="token punctuation">.</span>options<span class="token punctuation">.</span>password<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> CustomAuthPrompt <span class="token operator">=</span> AuthPrompt<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>authenticate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CustomAuthPrompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'password'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Please enter your password'</span><span class="token punctuation">,</span>
+  username<span class="token operator">:</span> <span class="token string">'rajat-sr'</span><span class="token punctuation">,</span>
+  password<span class="token operator">:</span> <span class="token string">'1234567'</span><span class="token punctuation">,</span>
+  choices<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'username'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'username'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">'password'</span><span class="token punctuation">,</span> message<span class="token operator">:</span> <span class="token string">'password'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt
+  <span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Authenticated?'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <h4 class="atx" id="related-prompts-1">Related prompts</h4>
+      <ul>
+        <li><a href="#basicauth-prompt">BasicAuth Prompt</a></li>
+      </ul>
+      <hr />
+      <h3 class="atx" id="booleanprompt">BooleanPrompt</h3>
+      <p>
+        The <code>BooleanPrompt</code> class is used for creating prompts that
+        display and return a boolean value.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> BooleanPrompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span>  prompt <span class="token operator">=</span> <span class="token keyword">new</span>  <span class="token class-name">BooleanPrompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  header<span class="token operator">:</span>  <span class="token string">'========================'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span>  <span class="token string">'Do you love enquirer?'</span><span class="token punctuation">,</span>
+  footer<span class="token operator">:</span>  <span class="token string">'========================'</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span>  <span class="token operator">=&gt;</span>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Selected:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Returns</strong>: <code>boolean</code></p>
+      <hr />
+      <h3 class="atx" id="numberprompt">NumberPrompt</h3>
+      <p>
+        The <code>NumberPrompt</code> class is used for creating prompts that
+        display and return a numerical value.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> NumberPrompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span>  prompt <span class="token operator">=</span> <span class="token keyword">new</span>  <span class="token class-name">NumberPrompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  header<span class="token operator">:</span>  <span class="token string">'************************'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span>  <span class="token string">'Input the Numbers:'</span><span class="token punctuation">,</span>
+  footer<span class="token operator">:</span>  <span class="token string">'************************'</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span>  <span class="token operator">=&gt;</span>  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Numbers are:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        <strong>Returns</strong>: <code>string|number</code> (number, or number
+        formatted as a string)
+      </p>
+      <hr />
+      <h3 class="atx" id="stringprompt">StringPrompt</h3>
+      <p>
+        The <code>StringPrompt</code> class is used for creating prompts that
+        display and return a string value.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> StringPrompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringPrompt</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  header<span class="token operator">:</span> <span class="token string">'************************'</span><span class="token punctuation">,</span>
+  message<span class="token operator">:</span> <span class="token string">'Input the String:'</span><span class="token punctuation">,</span>
+  footer<span class="token operator">:</span> <span class="token string">'************************'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'String is:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p><strong>Returns</strong>: <code>string</code></p>
+      <br />
+
+      <h2 class="atx" id="❯-custom-prompts">❯ Custom prompts</h2>
+      <p>
+        With Enquirer 2.0, custom prompts are easier than ever to create and
+        use.
+      </p>
+      <p><strong>How do I create a custom prompt?</strong></p>
+      <p>Custom prompts are created by extending either:</p>
+      <ul>
+        <li>Enquirer's <code>Prompt</code> class</li>
+        <li>one of the built-in <a href="#-prompts">prompts</a>, or</li>
+        <li>low-level <a href="#-types">types</a>.</li>
+      </ul>
+
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> Prompt <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">HaiKarate</span> <span class="token keyword">extends</span> <span class="token class-name">Prompt</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">options <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> options<span class="token punctuation">.</span>initial <span class="token operator">||</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">cursorHide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">up</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">down</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// clear previously rendered prompt from the terminal</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>message<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Use the prompt by creating an instance of your custom prompt class.</span>
+<span class="token keyword">const</span> prompt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HaiKarate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  message<span class="token operator">:</span> <span class="token string">'How many sprays do you want?'</span><span class="token punctuation">,</span>
+  initial<span class="token operator">:</span> <span class="token number">10</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+prompt<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">answer</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Sprays:'</span><span class="token punctuation">,</span> answer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        If you want to be able to specify your prompt by <code>type</code> so
+        that it may be used alongside other prompts, you will need to first
+        create an instance of <code>Enquirer</code>.
+      </p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">const</span> Enquirer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'enquirer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> enquirer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Enquirer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>
+        Then use the <code>.register()</code> method to add your custom prompt.
+      </p>
+      <pre><code class="fenced-code-block language-js">enquirer<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'haikarate'</span><span class="token punctuation">,</span> HaiKarate<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <p>Now you can do the following when defining "questions".</p>
+      <pre><code class="fenced-code-block language-js"><span class="token keyword">let</span> spritzer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'cologne-drone'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> answers <span class="token operator">=</span> <span class="token keyword">await</span> enquirer<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token string">'haikarate'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'cologne'</span><span class="token punctuation">,</span>
+    message<span class="token operator">:</span> <span class="token string">'How many sprays do you need?'</span><span class="token punctuation">,</span>
+    initial<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    <span class="token keyword">async</span> <span class="token function">onSubmit</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">await</span> spritzer<span class="token punctuation">.</span><span class="token function">activate</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//&lt;= activate drone</span>
+      <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      <br />
+
+      <h2 class="atx" id="❯-key-bindings">❯ Key Bindings</h2>
+      <h3 class="atx" id="all-prompts">All prompts</h3>
+      <p>These key combinations may be used with all prompts.</p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>c</kbd></td>
+            <td>Cancel the prompt.</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>g</kbd></td>
+            <td>Reset the prompt to its initial state.</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <h3 class="atx" id="move-cursor">Move cursor</h3>
+      <p>
+        These combinations may be used on prompts that support user input (eg.
+        <a href="#input-prompt">input prompt</a>,
+        <a href="#password-prompt">password prompt</a>, and
+        <a href="#invisible-prompt">invisible prompt</a>).
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>left</kbd></td>
+            <td>Move the cursor back one character.</td>
+          </tr>
+          <tr>
+            <td><kbd>right</kbd></td>
+            <td>Move the cursor forward one character.</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>a</kbd></td>
+            <td>Move cursor to the start of the line</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>e</kbd></td>
+            <td>Move cursor to the end of the line</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>b</kbd></td>
+            <td>Move cursor back one character</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>f</kbd></td>
+            <td>Move cursor forward one character</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>x</kbd></td>
+            <td>Toggle between first and cursor position</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <h3 class="atx" id="edit-input">Edit Input</h3>
+      <p>
+        These key combinations may be used on prompts that support user input
+        (eg. <a href="#input-prompt">input prompt</a>,
+        <a href="#password-prompt">password prompt</a>, and
+        <a href="#invisible-prompt">invisible prompt</a>).
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>a</kbd></td>
+            <td>Move cursor to the start of the line</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>e</kbd></td>
+            <td>Move cursor to the end of the line</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>b</kbd></td>
+            <td>Move cursor back one character</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>f</kbd></td>
+            <td>Move cursor forward one character</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>x</kbd></td>
+            <td>Toggle between first and cursor position</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command (Mac)</strong></th>
+            <th><strong>command (Windows)</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>delete</kbd></td>
+            <td><kbd>backspace</kbd></td>
+            <td>Delete one character to the left.</td>
+          </tr>
+          <tr>
+            <td><kbd>fn</kbd> + <kbd>delete</kbd></td>
+            <td><kbd>delete</kbd></td>
+            <td>Delete one character to the right.</td>
+          </tr>
+          <tr>
+            <td><kbd>option</kbd> + <kbd>up</kbd></td>
+            <td><kbd>alt</kbd> + <kbd>up</kbd></td>
+            <td>
+              Scroll to the previous item in history (<a href="#input-prompt"
+                >Input prompt</a
+              >
+              only, when
+              <a href="examples/input/option-history.js">history is enabled</a
+              >).
+            </td>
+          </tr>
+          <tr>
+            <td><kbd>option</kbd> + <kbd>down</kbd></td>
+            <td><kbd>alt</kbd> + <kbd>down</kbd></td>
+            <td>
+              Scroll to the next item in history (<a href="#input-prompt"
+                >Input prompt</a
+              >
+              only, when
+              <a href="examples/input/option-history.js">history is enabled</a
+              >).
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="atx" id="select-choices">Select choices</h3>
+      <p>
+        These key combinations may be used on prompts that support
+        <em>multiple</em> choices, such as the
+        <a href="#multiselect-prompt">multiselect prompt</a>, or the
+        <a href="#select-prompt">select prompt</a> when the
+        <code>multiple</code> options is true.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>space</kbd></td>
+            <td>
+              Toggle the currently selected choice when
+              <code>options.multiple</code> is true.
+            </td>
+          </tr>
+          <tr>
+            <td><kbd>number</kbd></td>
+            <td>
+              Move the pointer to the choice at the given index. Also toggles
+              the selected choice when <code>options.multiple</code> is true.
+            </td>
+          </tr>
+          <tr>
+            <td><kbd>a</kbd></td>
+            <td>Toggle all choices to be enabled or disabled.</td>
+          </tr>
+          <tr>
+            <td><kbd>i</kbd></td>
+            <td>Invert the current selection of choices.</td>
+          </tr>
+          <tr>
+            <td><kbd>g</kbd></td>
+            <td>Toggle the current choice group.</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <h3 class="atx" id="hideshow-choices">Hide/show choices</h3>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>fn</kbd> + <kbd>up</kbd></td>
+            <td>Decrease the number of visible choices by one.</td>
+          </tr>
+          <tr>
+            <td><kbd>fn</kbd> + <kbd>down</kbd></td>
+            <td>Increase the number of visible choices by one.</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <h3 class="atx" id="movelock-pointer">Move/lock Pointer</h3>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>number</kbd></td>
+            <td>
+              Move the pointer to the choice at the given index. Also toggles
+              the selected choice when <code>options.multiple</code> is true.
+            </td>
+          </tr>
+          <tr>
+            <td><kbd>up</kbd></td>
+            <td>Move the pointer up.</td>
+          </tr>
+          <tr>
+            <td><kbd>down</kbd></td>
+            <td>Move the pointer down.</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>a</kbd></td>
+            <td>Move the pointer to the first <em>visible</em> choice.</td>
+          </tr>
+          <tr>
+            <td><kbd>ctrl</kbd> + <kbd>e</kbd></td>
+            <td>Move the pointer to the last <em>visible</em> choice.</td>
+          </tr>
+          <tr>
+            <td><kbd>shift</kbd> + <kbd>up</kbd></td>
+            <td>
+              Scroll up one choice without changing pointer position (locks the
+              pointer while scrolling).
+            </td>
+          </tr>
+          <tr>
+            <td><kbd>shift</kbd> + <kbd>down</kbd></td>
+            <td>
+              Scroll down one choice without changing pointer position (locks
+              the pointer while scrolling).
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <table>
+        <thead>
+          <tr>
+            <th><strong>command (Mac)</strong></th>
+            <th><strong>command (Windows)</strong></th>
+            <th><strong>description</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>fn</kbd> + <kbd>left</kbd></td>
+            <td><kbd>home</kbd></td>
+            <td>Move the pointer to the first choice in the choices array.</td>
+          </tr>
+          <tr>
+            <td><kbd>fn</kbd> + <kbd>right</kbd></td>
+            <td><kbd>end</kbd></td>
+            <td>Move the pointer to the last choice in the choices array.</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <h2 class="atx" id="❯-release-history">❯ Release History</h2>
+      <p>Please see <a href="CHANGELOG.md">CHANGELOG.md</a>.</p>
+      <h2 class="atx" id="❯-performance">❯ Performance</h2>
+      <h3 class="atx" id="system-specs">System specs</h3>
+      <p>MacBook Pro, Intel Core i7, 2.5 GHz, 16 GB.</p>
+      <h3 class="atx" id="load-time">Load time</h3>
+      <p>
+        Time it takes for the module to load the first time (average of 3 runs):
+      </p>
+      <pre><code class="fenced-code-block">enquirer: 4.013ms
+inquirer: 286.717ms</code></pre>
+      <br />
+
+      <h2 class="atx" id="❯-about">❯ About</h2>
+      <details>
+        <summary><strong>Contributing</strong></summary>
+
+        <p>
+          Pull requests and stars are always welcome. For bugs and feature
+          requests, <a href="../../issues/new">please create an issue</a>.
+        </p>
+        <h3 class="atx" id="todo">Todo</h3>
+        <p>
+          We're currently working on documentation for the following items.
+          Please star and watch the repository for updates!
+        </p>
+        <ul>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Customizing symbols</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Customizing styles (palette)</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Customizing rendered input</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Customizing returned values</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Customizing key bindings</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Question validation</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Choice validation</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Skipping questions</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Async choices</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Async timers: loaders, spinners and other animations</p>
+          </li>
+          <li class="task-list-item">
+            <input disabled="" type="checkbox" />
+            <p>Links to examples</p>
+          </li>
+        </ul>
+      </details>
+
+      <details>
+        <summary><strong>Running Tests</strong></summary>
+
+        <p>
+          Running and reviewing unit tests is a great way to get familiarized
+          with a library and its API. You can install dependencies and run tests
+          with the following command:
+        </p>
+        <pre><code class="fenced-code-block language-sh">$ npm install &amp;&amp; npm test</code></pre>
+        <pre><code class="fenced-code-block language-sh">$ yarn &amp;&amp; yarn test</code></pre>
+      </details>
+
+      <details>
+        <summary><strong>Building docs</strong></summary>
+
+        <p>
+          <em
+            >(This project's readme.md is generated by
+            <a href="https://github.com/verbose/verb-generate-readme">verb</a>,
+            please don't edit the readme directly. Any changes to the readme
+            must be made in the <a href=".verb.md">.verb.md</a> readme
+            template.)</em
+          >
+        </p>
+        <p>To generate the readme, run the following command:</p>
+        <pre><code class="fenced-code-block language-sh">$ npm install -g verbose/verb#dev verb-generate-readme &amp;&amp; verb</code></pre>
+      </details>
+
+      <h4 class="atx" id="contributors">Contributors</h4>
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Commits</strong></th>
+            <th><strong>Contributor</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>287</td>
+            <td>
+              <a href="https://github.com/jonschlinkert">jonschlinkert</a>
+            </td>
+          </tr>
+          <tr>
+            <td>86</td>
+            <td><a href="https://github.com/doowb">doowb</a></td>
+          </tr>
+          <tr>
+            <td>32</td>
+            <td><a href="https://github.com/rajat-sr">rajat-sr</a></td>
+          </tr>
+          <tr>
+            <td>20</td>
+            <td><a href="https://github.com/318097">318097</a></td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td><a href="https://github.com/g-plane">g-plane</a></td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td><a href="https://github.com/pixelass">pixelass</a></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>
+              <a href="https://github.com/adityavyas611">adityavyas611</a>
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><a href="https://github.com/satotake">satotake</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><a href="https://github.com/tunnckoCore">tunnckoCore</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><a href="https://github.com/Ovyerus">Ovyerus</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><a href="https://github.com/sw-yx">sw-yx</a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><a href="https://github.com/DanielRuf">DanielRuf</a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><a href="https://github.com/GabeL7r">GabeL7r</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/ahmadawais">ahmadawais</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/AlCalzone">AlCalzone</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>
+              <a href="https://github.com/hipstersmoothie">hipstersmoothie</a>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/TrySound">TrySound</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>
+              <a href="https://github.com/brentjanderson">brentjanderson</a>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>
+              <a href="https://github.com/danieldelcore">danieldelcore</a>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/ImgBotApp">ImgBotApp</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/jsonkao">jsonkao</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/knpwrs">knpwrs</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/yeskunall">yeskunall</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/mischah">mischah</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/renarsvilnis">renarsvilnis</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/sbugert">sbugert</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>
+              <a href="https://github.com/stephencweiss">stephencweiss</a>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/skellock">skellock</a></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://github.com/whxaxes">whxaxes</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 class="atx" id="author">Author</h4>
+      <p><strong>Jon Schlinkert</strong></p>
+      <ul>
+        <li><a href="https://github.com/jonschlinkert">GitHub Profile</a></li>
+        <li><a href="https://twitter.com/jonschlinkert">Twitter Profile</a></li>
+        <li>
+          <a href="https://linkedin.com/in/jonschlinkert">LinkedIn Profile</a>
+        </li>
+      </ul>
+      <h4 class="atx" id="credit">Credit</h4>
+      <p>
+        Thanks to <a href="https://github.com/derhuerst">derhuerst</a>, creator
+        of prompt libraries such as
+        <a href="https://github.com/derhuerst/prompt-skeleton"
+          >prompt-skeleton</a
+        >, which influenced some of the concepts we used in our prompts.
+      </p>
+      <h4 class="atx" id="license">License</h4>
+      <p>
+        Copyright © 2018-present,
+        <a href="https://github.com/jonschlinkert">Jon Schlinkert</a>. Released
+        under the <a href="LICENSE">MIT License</a>.
+      </p>
+    </article>
+  </body>
+</html>
