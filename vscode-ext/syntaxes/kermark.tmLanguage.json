@@ -25,7 +25,7 @@
       "while": "(^|\\G)\\s*(>) ?"
     },
     "controller": {
-      "match": "(\\{.*?\\})?(\\[.*?\\])(\\{.*?\\})",
+      "match": "(\\{(?:.*?)\\})?(\\[(?:.*?)\\])(\\{(?:.*?)\\})?",
       "name": "markup.controller.kermark",
       "captures": {
         "1": {
@@ -34,44 +34,40 @@
             {
               "match": "\\{(.*?)\\}",
               "captures": {
-                "1":{
-                    "patterns":[
-                      {
-                        "match":";|,",
-                        "name":"punctuation.separator.preset.kermark"
-                      },
-                      {
-                        "match":"[^\\s^;]+",
-                        "name":"variable.other.preset.kermark"
-                      }
-                    ]
+                "1": {
+                  "patterns": [
+                    {
+                      "match": ";|,",
+                      "name": "punctuation.separator.preset.kermark"
+                    },
+                    {
+                      "match": "[^\\s^;]+",
+                      "name": "variable.other.preset.kermark"
+                    }
+                  ]
                 }
               }
             }
           ]
         },
-        "2":{
-          "name":"controller.content.kermark",
-          "patterns":[
+        "2": {
+          "name": "controller.content.kermark",
+          "patterns": [
             {
-              "match":"\\[(.*?)\\]",
+              "match": "\\[(.*?)\\]",
               "captures": {
-                "1":{
-                    //TODO
-                }
+                "1": {}
               }
             }
           ]
         },
-        "3":{
-          "name":"controller.attribute.kermark",
-          "patterns":[
+        "3": {
+          "name": "controller.attribute.kermark",
+          "patterns": [
             {
-              "match":"\\{(.*?)\\}",
+              "match": "\\{(.*?)\\}",
               "captures": {
-                "1":{
-                    //TODO
-                }
+                "1": {}
               }
             }
           ]
@@ -79,15 +75,9 @@
       }
     },
     "heading": {
-      "patterns": [
-        { "include": "#top_heading" },
-        { "include": "#not_top_heading" }
-      ]
+      "patterns": [{ "include": "#not_top_heading" }]
     },
-    "top_heading": {
-      //TODO here.
-      "begin": "(?:^|\\G)[ ]{0,3}(#\\s+(.*?)(\\s+#{1,6})?\\s*)$"
-    },
+    "top_heading": {},
     "not_top_heading": {
       "match": "(?:^|\\G)[ ]{0,3}(#{2,6}\\s+(.*?)(\\s+#{1,6})?\\s*)$",
       "captures": {
@@ -743,10 +733,7 @@
           "begin": "(^|\\G)(\\s*)(.*)",
           "while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
           "contentName": "meta.embedded.block.php",
-          "patterns": [
-            { "include": "text.html.basic" },
-            { "include": "source.php" }
-          ]
+          "patterns": [{ "include": "text.html.basic" },{ "include": "source.php" }]
         }
       ]
     },
@@ -1493,25 +1480,6 @@
     },
     "fenced_code_block_markdown": {
       "begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(markdown|md)((\\s+|:|,|\\{|\\?)[^`~]*)?$)",
-      "name": "markup.fenced_code.block.markdown",
-      "end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
-      "beginCaptures": {
-        "3": { "name": "punctuation.definition.markdown" },
-        "4": { "name": "fenced_code.block.language.markdown" },
-        "5": { "name": "fenced_code.block.language.attributes.markdown" }
-      },
-      "endCaptures": { "3": { "name": "punctuation.definition.markdown" } },
-      "patterns": [
-        {
-          "begin": "(^|\\G)(\\s*)(.*)",
-          "while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
-          "contentName": "meta.embedded.block.markdown",
-          "patterns": [{ "include": "text.html.markdown" }]
-        }
-      ]
-    },
-    "fenced_code_block_kermark": {
-      "begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(kermark|kmk)((\\s+|:|,|\\{|\\?)[^`~]*)?$)",
       "name": "markup.fenced_code.block.kermark",
       "end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
       "beginCaptures": {
@@ -1524,8 +1492,8 @@
         {
           "begin": "(^|\\G)(\\s*)(.*)",
           "while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
-          "contentName": "meta.embedded.block.kermark",
-          "patterns": [{ "include": "text.html.kermark" }]
+          "contentName": "meta.embedded.block.markdown",
+          "patterns": [{ "include": "text.html.markdown" }]
         }
       ]
     },
@@ -1624,64 +1592,84 @@
         }
       ]
     },
+    "fenced_code_block_kermark": {
+      "begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(kermark|kmk)((\\s+|:|,|\\{|\\?)[^`~]*)?$)",
+      "name": "markup.fenced_code.block.kermark",
+      "end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
+      "beginCaptures": {
+        "3": { "name": "punctuation.definition.kermark" },
+        "4": { "name": "fenced_code.block.language.kermark" },
+        "5": { "name": "fenced_code.block.language.attributes.kermark" }
+      },
+      "endCaptures": { "3": { "name": "punctuation.definition.kermark" } },
+      "patterns": [
+        {
+          "begin": "(^|\\G)(\\s*)(.*)",
+          "while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
+          "contentName": "meta.embedded.block.kermark",
+          "patterns": [{ "include": "text.html.kermark" }]
+        }
+      ]
+    },
     "fenced_code_block": {
       "patterns": [
-        { "include": "#fenced_code_block_css" },
-        { "include": "#fenced_code_block_basic" },
-        { "include": "#fenced_code_block_ini" },
-        { "include": "#fenced_code_block_java" },
-        { "include": "#fenced_code_block_lua" },
-        { "include": "#fenced_code_block_makefile" },
-        { "include": "#fenced_code_block_perl" },
-        { "include": "#fenced_code_block_r" },
-        { "include": "#fenced_code_block_ruby" },
-        { "include": "#fenced_code_block_php" },
-        { "include": "#fenced_code_block_sql" },
-        { "include": "#fenced_code_block_vs_net" },
-        { "include": "#fenced_code_block_xml" },
-        { "include": "#fenced_code_block_xsl" },
-        { "include": "#fenced_code_block_yaml" },
-        { "include": "#fenced_code_block_dosbatch" },
-        { "include": "#fenced_code_block_clojure" },
-        { "include": "#fenced_code_block_coffee" },
-        { "include": "#fenced_code_block_c" },
-        { "include": "#fenced_code_block_cpp" },
-        { "include": "#fenced_code_block_diff" },
-        { "include": "#fenced_code_block_dockerfile" },
-        { "include": "#fenced_code_block_git_commit" },
-        { "include": "#fenced_code_block_git_rebase" },
-        { "include": "#fenced_code_block_go" },
-        { "include": "#fenced_code_block_groovy" },
-        { "include": "#fenced_code_block_pug" },
-        { "include": "#fenced_code_block_js" },
-        { "include": "#fenced_code_block_js_regexp" },
-        { "include": "#fenced_code_block_json" },
-        { "include": "#fenced_code_block_jsonc" },
-        { "include": "#fenced_code_block_less" },
-        { "include": "#fenced_code_block_objc" },
-        { "include": "#fenced_code_block_swift" },
-        { "include": "#fenced_code_block_scss" },
-        { "include": "#fenced_code_block_perl6" },
-        { "include": "#fenced_code_block_powershell" },
-        { "include": "#fenced_code_block_python" },
-        { "include": "#fenced_code_block_julia" },
-        { "include": "#fenced_code_block_regexp_python" },
-        { "include": "#fenced_code_block_rust" },
-        { "include": "#fenced_code_block_scala" },
-        { "include": "#fenced_code_block_shell" },
-        { "include": "#fenced_code_block_ts" },
-        { "include": "#fenced_code_block_tsx" },
-        { "include": "#fenced_code_block_csharp" },
-        { "include": "#fenced_code_block_fsharp" },
-        { "include": "#fenced_code_block_dart" },
-        { "include": "#fenced_code_block_handlebars" },
-        { "include": "#fenced_code_block_markdown" },
-        { "include": "#fenced_code_block_kermark" },
-        { "include": "#fenced_code_block_log" },
-        { "include": "#fenced_code_block_erlang" },
-        { "include": "#fenced_code_block_elixir" },
-        { "include": "#fenced_code_block_latex" },
-        { "include": "#fenced_code_block_bibtex" },
+        {
+        "include": "#fenced_code_block_css"},
+        {"include": "#fenced_code_block_basic"},
+        {"include": "#fenced_code_block_ini"},
+        {"include": "#fenced_code_block_java"},
+        {"include": "#fenced_code_block_lua"},
+        {"include": "#fenced_code_block_makefile"},
+        {"include": "#fenced_code_block_perl"},
+        {"include": "#fenced_code_block_r"},
+        {"include": "#fenced_code_block_ruby"},
+        {"include": "#fenced_code_block_php"},
+        {"include": "#fenced_code_block_sql"},
+        {"include": "#fenced_code_block_vs_net"},
+        {"include": "#fenced_code_block_xml"},
+        {"include": "#fenced_code_block_xsl"},
+        {"include": "#fenced_code_block_yaml"},
+        {"include": "#fenced_code_block_dosbatch"},
+        {"include": "#fenced_code_block_clojure"},
+        {"include": "#fenced_code_block_coffee"},
+        {"include": "#fenced_code_block_c"},
+        {"include": "#fenced_code_block_cpp"},
+        {"include": "#fenced_code_block_diff"},
+        {"include": "#fenced_code_block_dockerfile"},
+        {"include": "#fenced_code_block_git_commit"},
+        {"include": "#fenced_code_block_git_rebase"},
+        {"include": "#fenced_code_block_go"},
+        {"include": "#fenced_code_block_groovy"},
+        {"include": "#fenced_code_block_pug"},
+        {"include": "#fenced_code_block_js"},
+        {"include": "#fenced_code_block_js_regexp"},
+        {"include": "#fenced_code_block_json"},
+        {"include": "#fenced_code_block_jsonc"},
+        {"include": "#fenced_code_block_less"},
+        {"include": "#fenced_code_block_objc"},
+        {"include": "#fenced_code_block_swift"},
+        {"include": "#fenced_code_block_scss"},
+        {"include": "#fenced_code_block_perl6"},
+        {"include": "#fenced_code_block_powershell"},
+        {"include": "#fenced_code_block_python"},
+        {"include": "#fenced_code_block_julia"},
+        {"include": "#fenced_code_block_regexp_python"},
+        {"include": "#fenced_code_block_rust"},
+        {"include": "#fenced_code_block_scala"},
+        {"include": "#fenced_code_block_shell"},
+        {"include": "#fenced_code_block_ts"},
+        {"include": "#fenced_code_block_tsx"},
+        {"include": "#fenced_code_block_csharp"},
+        {"include": "#fenced_code_block_fsharp"},
+        {"include": "#fenced_code_block_dart"},
+        {"include": "#fenced_code_block_handlebars"},
+        {"include": "#fenced_code_block_markdown"},
+        {"include": "#fenced_code_block_log"},
+        {"include": "#fenced_code_block_erlang"},
+        {"include": "#fenced_code_block_elixir"},
+        {"include": "#fenced_code_block_latex"},
+        {"include": "#fenced_code_block_bibtex"},
+        {"include": "#fenced_code_block_kermark" },
         { "include": "#fenced_code_block_unknown" }
       ]
     },

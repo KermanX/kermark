@@ -1,0 +1,569 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "scopeName": "text.html.kermark",
+  "patterns": [{ "include": "#frontMatter" }, { "include": "#block" }],
+  "repository": {
+    "block": {
+      "patterns": [
+        { "include": "#separator" },
+        { "include": "#heading" },
+        { "include": "#blockquote" },
+        { "include": "#lists" },
+        { "include": "#fenced_code_block" },
+        { "include": "#raw_block" },
+        { "include": "#link-def" },
+        { "include": "#html" },
+        { "include": "#paragraph" }
+      ]
+    },
+    "blockquote": {
+      "begin": "(^|\\G)[ ]{0,3}(>) ?",
+      "captures": {
+        "2": { "name": "punctuation.definition.quote.begin.kermark" }
+      },
+      "name": "markup.quote.kermark",
+      "patterns": [{ "include": "#block" }],
+      "while": "(^|\\G)\\s*(>) ?"
+    },
+    "controller": {
+      "match": "(\\{(?:.*?)\\})?(\\[(?:.*?)\\])(\\{(?:.*?)\\})?",
+      "name": "markup.controller.kermark",
+      "captures": {
+        "1": {
+          "name": "punctuation.preset.kermark",
+          "patterns": [
+            {
+              "match": "\\{(.*?)\\}",
+              "captures": {
+                "1": {
+                  "patterns": [
+                    {
+                      "match": ";|,",
+                      "name": "punctuation.separator.preset.kermark"
+                    },
+                    {
+                      "match": "[^\\s^;]+",
+                      "name": "variable.other.preset.kermark"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "2": {
+          "name": "controller.content.kermark",
+          "patterns": [
+            {
+              "match": "\\[(.*?)\\]",
+              "captures": {
+                "1": {}
+              }
+            }
+          ]
+        },
+        "3": {
+          "name": "controller.attribute.kermark",
+          "patterns": [
+            {
+              "match": "\\{(.*?)\\}",
+              "captures": {
+                "1": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "heading": {
+      "patterns": [{ "include": "#not_top_heading" }]
+    },
+    "top_heading": {},
+    "not_top_heading": {
+      "match": "(?:^|\\G)[ ]{0,3}(#{2,6}\\s+(.*?)(\\s+#{1,6})?\\s*)$",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "match": "(#{6})\\s+(.*?)(?:\\s+(#+))?\\s*$",
+              "name": "heading.6.kermark",
+              "captures": {
+                "1": { "name": "punctuation.definition.heading.kermark" },
+                "2": {
+                  "name": "entity.name.section.kermark",
+                  "patterns": [
+                    { "include": "#inline" },
+                    { "include": "text.html.derivative" }
+                  ]
+                },
+                "3": { "name": "punctuation.definition.heading.kermark" }
+              }
+            },
+            {
+              "match": "(#{5})\\s+(.*?)(?:\\s+(#+))?\\s*$",
+              "name": "heading.5.kermark",
+              "captures": {
+                "1": { "name": "punctuation.definition.heading.kermark" },
+                "2": {
+                  "name": "entity.name.section.kermark",
+                  "patterns": [
+                    { "include": "#inline" },
+                    { "include": "text.html.derivative" }
+                  ]
+                },
+                "3": { "name": "punctuation.definition.heading.kermark" }
+              }
+            },
+            {
+              "match": "(#{4})\\s+(.*?)(?:\\s+(#+))?\\s*$",
+              "name": "heading.4.kermark",
+              "captures": {
+                "1": { "name": "punctuation.definition.heading.kermark" },
+                "2": {
+                  "name": "entity.name.section.kermark",
+                  "patterns": [
+                    { "include": "#inline" },
+                    { "include": "text.html.derivative" }
+                  ]
+                },
+                "3": { "name": "punctuation.definition.heading.kermark" }
+              }
+            },
+            {
+              "match": "(#{3})\\s+(.*?)(?:\\s+(#+))?\\s*$",
+              "name": "heading.3.kermark",
+              "captures": {
+                "1": { "name": "punctuation.definition.heading.kermark" },
+                "2": {
+                  "name": "entity.name.section.kermark",
+                  "patterns": [
+                    { "include": "#inline" },
+                    { "include": "text.html.derivative" }
+                  ]
+                },
+                "3": { "name": "punctuation.definition.heading.kermark" }
+              }
+            },
+            {
+              "match": "(#{2})\\s+(.*?)(?:\\s+(#+))?\\s*$",
+              "name": "heading.2.kermark",
+              "captures": {
+                "1": { "name": "punctuation.definition.heading.kermark" },
+                "2": {
+                  "name": "entity.name.section.kermark",
+                  "patterns": [
+                    { "include": "#inline" },
+                    { "include": "text.html.derivative" }
+                  ]
+                },
+                "3": { "name": "punctuation.definition.heading.kermark" }
+              }
+            }
+          ]
+        }
+      },
+      "name": "markup.heading.kermark",
+      "patterns": [{ "include": "#inline" }]
+    },
+    "heading-setext": {
+      "patterns": [
+        {
+          "match": "^(={3,})(?=[ \\t]*$\\n?)",
+          "name": "markup.heading.setext.1.kermark"
+        },
+        {
+          "match": "^(-{3,})(?=[ \\t]*$\\n?)",
+          "name": "markup.heading.setext.2.kermark"
+        }
+      ]
+    },
+    "html": {
+      "patterns": [
+        {
+          "begin": "(^|\\G)\\s*(<!--)",
+          "captures": {
+            "1": { "name": "punctuation.definition.comment.html" },
+            "2": { "name": "punctuation.definition.comment.html" }
+          },
+          "end": "(-->)",
+          "name": "comment.block.html"
+        },
+        {
+          "begin": "(?i)(^|\\G)\\s*(?=<(script|style|pre)(\\s|$|>)(?!.*?</(script|style|pre)>))",
+          "end": "(?i)(.*)((</)(script|style|pre)(>))",
+          "endCaptures": {
+            "1": { "patterns": [{ "include": "text.html.derivative" }] },
+            "2": { "name": "meta.tag.structure.$4.end.html" },
+            "3": { "name": "punctuation.definition.tag.begin.html" },
+            "4": { "name": "entity.name.tag.html" },
+            "5": { "name": "punctuation.definition.tag.end.html" }
+          },
+          "patterns": [
+            {
+              "begin": "(\\s*|$)",
+              "patterns": [{ "include": "text.html.derivative" }],
+              "while": "(?i)^(?!.*</(script|style|pre)>)"
+            }
+          ]
+        },
+        {
+          "begin": "(?i)(^|\\G)\\s*(?=</?[a-zA-Z]+[^\\s/&gt;]*(\\s|$|/?>))",
+          "patterns": [{ "include": "text.html.derivative" }],
+          "while": "^(?!\\s*$)"
+        },
+        {
+          "begin": "(^|\\G)\\s*(?=(<[a-zA-Z0-9\\-](/?>|\\s.*?>)|</[a-zA-Z0-9\\-]>)\\s*$)",
+          "patterns": [{ "include": "text.html.derivative" }],
+          "while": "^(?!\\s*$)"
+        }
+      ]
+    },
+    "link-def": {
+      "captures": {
+        "1": { "name": "punctuation.definition.constant.kermark" },
+        "2": { "name": "constant.other.reference.link.kermark" },
+        "3": { "name": "punctuation.definition.constant.kermark" },
+        "4": { "name": "punctuation.separator.key-value.kermark" },
+        "5": { "name": "punctuation.definition.link.kermark" },
+        "6": { "name": "markup.underline.link.kermark" },
+        "7": { "name": "punctuation.definition.link.kermark" },
+        "8": { "name": "markup.underline.link.kermark" },
+        "9": { "name": "string.other.link.description.title.kermark" },
+        "10": { "name": "punctuation.definition.string.begin.kermark" },
+        "11": { "name": "punctuation.definition.string.end.kermark" },
+        "12": { "name": "string.other.link.description.title.kermark" },
+        "13": { "name": "punctuation.definition.string.begin.kermark" },
+        "14": { "name": "punctuation.definition.string.end.kermark" },
+        "15": { "name": "string.other.link.description.title.kermark" },
+        "16": { "name": "punctuation.definition.string.begin.kermark" },
+        "17": { "name": "punctuation.definition.string.end.kermark" }
+      },
+      "match": "(?x)\n  \\s*            # Leading whitespace\n  (\\[)([^]]+?)(\\])(:)    # Reference name\n  [ \\t]*          # Optional whitespace\n  (?:(<)([^\\>]+?)(>)|(\\S+?))      # The url\n  [ \\t]*          # Optional whitespace\n  (?:\n      ((\\().+?(\\)))    # Match title in parens…\n    | ((\").+?(\"))    # or in double quotes…\n    | ((').+?('))    # or in single quotes.\n  )?            # Title is optional\n  \\s*            # Optional whitespace\n  $\n",
+      "name": "meta.link.reference.def.kermark"
+    },
+    "list_paragraph": {
+      "begin": "(^|\\G)(?=\\S)(?![*+->]\\s|[0-9]+\\.\\s)",
+      "name": "meta.paragraph.kermark",
+      "patterns": [
+        { "include": "#inline" },
+        { "include": "text.html.derivative" },
+        { "include": "#heading-setext" }
+      ],
+      "while": "(^|\\G)(?!\\s*$|#|[ ]{0,3}([-*_>][ ]{2,}){3,}[ \\t]*$\\n?|[ ]{0,3}[*+->]|[ ]{0,3}[0-9]+\\.)"
+    },
+    "lists": {
+      "patterns": [
+        {
+          "begin": "(^|\\G)([ ]{0,3})([*+-])([ \\t])",
+          "beginCaptures": {
+            "3": { "name": "punctuation.definition.list.begin.kermark" }
+          },
+          "comment": "Currently does not support un-indented second lines.",
+          "name": "markup.list.unnumbered.kermark",
+          "patterns": [
+            { "include": "#block" },
+            { "include": "#list_paragraph" }
+          ],
+          "while": "((^|\\G)([ ]{2,4}|\\t))|(^[ \\t]*$)"
+        },
+        {
+          "begin": "(^|\\G)([ ]{0,3})([0-9]+\\.)([ \\t])",
+          "beginCaptures": {
+            "3": { "name": "punctuation.definition.list.begin.kermark" }
+          },
+          "name": "markup.list.numbered.kermark",
+          "patterns": [
+            { "include": "#block" },
+            { "include": "#list_paragraph" }
+          ],
+          "while": "((^|\\G)([ ]{2,4}|\\t))|(^[ \\t]*$)"
+        }
+      ]
+    },
+    "paragraph": {
+      "begin": "(^|\\G)[ ]{0,3}(?=\\S)",
+      "name": "meta.paragraph.kermark",
+      "patterns": [
+        { "include": "#inline" },
+        { "include": "text.html.derivative" },
+        { "include": "#heading-setext" }
+      ],
+      "while": "(^|\\G)((?=\\s*[-=]{3,}\\s*$)|[ ]{4,}(?=\\S))"
+    },
+    "raw_block": {
+      "begin": "(^|\\G)([ ]{4}|\\t)",
+      "name": "markup.raw.block.kermark",
+      "while": "(^|\\G)([ ]{4}|\\t)"
+    },
+    "separator": {
+      "match": "(^|\\G)[ ]{0,3}([\\*\\-\\_])([ ]{0,2}\\2){2,}[ \\t]*$\\n?",
+      "name": "meta.separator.kermark"
+    },
+    "frontMatter": {
+      "begin": "\\A-{3}\\s*$",
+      "contentName": "meta.embedded.block.frontmatter",
+      "patterns": [{ "include": "source.yaml" }],
+      "end": "(^|\\G)-{3}|\\.{3}\\s*$"
+    },
+    "inline": {
+      "patterns": [
+        { "include": "#ampersand" },
+        { "include": "#bracket" },
+        { "include": "#bold" },
+        { "include": "#controller" },
+        { "include": "#italic" },
+        { "include": "#raw" },
+        { "include": "#strikethrough" },
+        { "include": "#escape" },
+        { "include": "#image-inline" },
+        { "include": "#image-ref" },
+        { "include": "#link-email" },
+        { "include": "#link-inet" },
+        { "include": "#link-inline" },
+        { "include": "#link-ref" },
+        { "include": "#link-ref-literal" },
+        { "include": "#link-ref-shortcut" }
+      ]
+    },
+    "ampersand": {
+      "comment": "Markdown will convert this for us. We match it so that the HTML grammar will not mark it up as invalid.",
+      "match": "&(?!([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+);)",
+      "name": "meta.other.valid-ampersand.kermark"
+    },
+    "bold": {
+      "begin": "(?x) (?<open>(\\*\\*(?=\\w)|(?<!\\w)\\*\\*|(?<!\\w)\\b__))(?=\\S) (?=\n  (\n    <[^>]*+>              # HTML tags\n    | (?<raw>`+)([^`]|(?!(?<!`)\\k<raw>(?!`))`)*+\\k<raw>\n                      # Raw\n    | \\\\[\\\\`*_{}\\[\\]()#.!+\\->]?+      # Escapes\n    | \\[\n    (\n        (?<square>          # Named group\n          [^\\[\\]\\\\]        # Match most chars\n          | \\\\.            # Escaped chars\n          | \\[ \\g<square>*+ \\]    # Nested brackets\n        )*+\n      \\]\n      (\n        (              # Reference Link\n          [ ]?          # Optional space\n          \\[[^\\]]*+\\]        # Ref name\n        )\n        | (              # Inline Link\n          \\(            # Opening paren\n            [ \\t]*+        # Optional whitespace\n            <?(.*?)>?      # URL\n            [ \\t]*+        # Optional whitespace\n            (          # Optional Title\n              (?<title>['\"])\n              (.*?)\n              \\k<title>\n            )?\n          \\)\n        )\n      )\n    )\n    | (?!(?<=\\S)\\k<open>).            # Everything besides\n                      # style closer\n  )++\n  (?<=\\S)(?=__\\b|\\*\\*)\\k<open>                # Close\n)\n",
+      "captures": { "1": { "name": "punctuation.definition.bold.kermark" } },
+      "end": "(?<=\\S)(\\1)",
+      "name": "markup.bold.kermark",
+      "patterns": [
+        {
+          "applyEndPatternLast": 1,
+          "begin": "(?=<[^>]*?>)",
+          "end": "(?<=>)",
+          "patterns": [{ "include": "text.html.derivative" }]
+        },
+        { "include": "#escape" },
+        { "include": "#ampersand" },
+        { "include": "#bracket" },
+        { "include": "#raw" },
+        { "include": "#bold" },
+        { "include": "#italic" },
+        { "include": "#image-inline" },
+        { "include": "#link-inline" },
+        { "include": "#link-inet" },
+        { "include": "#link-email" },
+        { "include": "#image-ref" },
+        { "include": "#link-ref-literal" },
+        { "include": "#link-ref" },
+        { "include": "#link-ref-shortcut" },
+        { "include": "#strikethrough" }
+      ]
+    },
+    "bracket": {
+      "comment": "Markdown will convert this for us. We match it so that the HTML grammar will not mark it up as invalid.",
+      "match": "<(?![a-zA-Z/?\\$!])",
+      "name": "meta.other.valid-bracket.kermark"
+    },
+    "escape": {
+      "match": "\\\\[-`*_#+.!(){}\\[\\]\\\\>]",
+      "name": "constant.character.escape.kermark"
+    },
+    "image-inline": {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.link.description.begin.kermark"
+        },
+        "2": { "name": "string.other.link.description.kermark" },
+        "4": { "name": "punctuation.definition.link.description.end.kermark" },
+        "5": { "name": "punctuation.definition.metadata.kermark" },
+        "6": { "name": "punctuation.definition.link.kermark" },
+        "7": { "name": "markup.underline.link.image.kermark" },
+        "8": { "name": "punctuation.definition.link.kermark" },
+        "9": { "name": "string.other.link.description.title.kermark" },
+        "10": { "name": "punctuation.definition.string.kermark" },
+        "11": { "name": "punctuation.definition.string.kermark" },
+        "12": { "name": "string.other.link.description.title.kermark" },
+        "13": { "name": "punctuation.definition.string.kermark" },
+        "14": { "name": "punctuation.definition.string.kermark" },
+        "15": { "name": "string.other.link.description.title.kermark" },
+        "16": { "name": "punctuation.definition.string.kermark" },
+        "17": { "name": "punctuation.definition.string.kermark" },
+        "18": { "name": "punctuation.definition.metadata.kermark" }
+      },
+      "match": "(?x)\n  (\\!\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])\n                # Match the link text.\n  (\\()            # Opening paren for url\n    (<?)(\\S+?)(>?)      # The url\n    [ \\t]*          # Optional whitespace\n    (?:\n        ((\\().+?(\\)))    # Match title in parens…\n      | ((\").+?(\"))    # or in double quotes…\n      | ((').+?('))    # or in single quotes.\n    )?            # Title is optional\n    \\s*            # Optional whitespace\n  (\\))\n",
+      "name": "meta.image.inline.kermark"
+    },
+    "image-ref": {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.link.description.begin.kermark"
+        },
+        "2": { "name": "string.other.link.description.kermark" },
+        "4": { "name": "punctuation.definition.link.description.end.kermark" },
+        "5": { "name": "punctuation.definition.constant.kermark" },
+        "6": { "name": "constant.other.reference.link.kermark" },
+        "7": { "name": "punctuation.definition.constant.kermark" }
+      },
+      "match": "(\\!\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])[ ]?(\\[)(.*?)(\\])",
+      "name": "meta.image.reference.kermark"
+    },
+    "italic": {
+      "begin": "(?x) (?<open>(\\*(?=\\w)|(?<!\\w)\\*|(?<!\\w)\\b_))(?=\\S)                # Open\n  (?=\n    (\n      <[^>]*+>              # HTML tags\n      | (?<raw>`+)([^`]|(?!(?<!`)\\k<raw>(?!`))`)*+\\k<raw>\n                        # Raw\n      | \\\\[\\\\`*_{}\\[\\]()#.!+\\->]?+      # Escapes\n      | \\[\n      (\n          (?<square>          # Named group\n            [^\\[\\]\\\\]        # Match most chars\n            | \\\\.            # Escaped chars\n            | \\[ \\g<square>*+ \\]    # Nested brackets\n          )*+\n        \\]\n        (\n          (              # Reference Link\n            [ ]?          # Optional space\n            \\[[^\\]]*+\\]        # Ref name\n          )\n          | (              # Inline Link\n            \\(            # Opening paren\n              [ \\t]*+        # Optional whtiespace\n              <?(.*?)>?      # URL\n              [ \\t]*+        # Optional whtiespace\n              (          # Optional Title\n                (?<title>['\"])\n                (.*?)\n                \\k<title>\n              )?\n            \\)\n          )\n        )\n      )\n      | \\k<open>\\k<open>                   # Must be bold closer\n      | (?!(?<=\\S)\\k<open>).            # Everything besides\n                        # style closer\n    )++\n    (?<=\\S)(?=_\\b|\\*)\\k<open>                # Close\n  )\n",
+      "captures": { "1": { "name": "punctuation.definition.italic.kermark" } },
+      "end": "(?<=\\S)(\\1)((?!\\1)|(?=\\1\\1))",
+      "name": "markup.italic.kermark",
+      "patterns": [
+        {
+          "applyEndPatternLast": 1,
+          "begin": "(?=<[^>]*?>)",
+          "end": "(?<=>)",
+          "patterns": [{ "include": "text.html.derivative" }]
+        },
+        { "include": "#escape" },
+        { "include": "#ampersand" },
+        { "include": "#bracket" },
+        { "include": "#raw" },
+        { "include": "#bold" },
+        { "include": "#image-inline" },
+        { "include": "#link-inline" },
+        { "include": "#link-inet" },
+        { "include": "#link-email" },
+        { "include": "#image-ref" },
+        { "include": "#link-ref-literal" },
+        { "include": "#link-ref" },
+        { "include": "#link-ref-shortcut" },
+        { "include": "#strikethrough" }
+      ]
+    },
+    "link-email": {
+      "captures": {
+        "1": { "name": "punctuation.definition.link.kermark" },
+        "2": { "name": "markup.underline.link.kermark" },
+        "4": { "name": "punctuation.definition.link.kermark" }
+      },
+      "match": "(<)((?:mailto:)?[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)(>)",
+      "name": "meta.link.email.lt-gt.kermark"
+    },
+    "link-inet": {
+      "captures": {
+        "1": { "name": "punctuation.definition.link.kermark" },
+        "2": { "name": "markup.underline.link.kermark" },
+        "3": { "name": "punctuation.definition.link.kermark" }
+      },
+      "match": "(<)((?:https?|ftp)://.*?)(>)",
+      "name": "meta.link.inet.kermark"
+    },
+    "link-inline": {
+      "captures": {
+        "1": { "name": "punctuation.definition.link.title.begin.kermark" },
+        "2": { "name": "string.other.link.title.kermark" },
+        "4": { "name": "punctuation.definition.link.title.end.kermark" },
+        "5": { "name": "punctuation.definition.metadata.kermark" },
+        "6": { "name": "punctuation.definition.link.kermark" },
+        "7": { "name": "markup.underline.link.kermark" },
+        "9": { "name": "punctuation.definition.link.kermark" },
+        "10": { "name": "string.other.link.description.title.kermark" },
+        "11": { "name": "punctuation.definition.string.begin.kermark" },
+        "12": { "name": "punctuation.definition.string.end.kermark" },
+        "13": { "name": "string.other.link.description.title.kermark" },
+        "14": { "name": "punctuation.definition.string.begin.kermark" },
+        "15": { "name": "punctuation.definition.string.end.kermark" },
+        "16": { "name": "string.other.link.description.title.kermark" },
+        "17": { "name": "punctuation.definition.string.begin.kermark" },
+        "18": { "name": "punctuation.definition.string.end.kermark" },
+        "19": { "name": "punctuation.definition.metadata.kermark" }
+      },
+      "match": "(?x)\n  (\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])\n                # Match the link text.\n  (\\()            # Opening paren for url\n    (<?)((?<url>(?>[^\\s()]+)|\\(\\g<url>*\\))*)(>?)      # The url\n    [ \\t]*          # Optional whitespace\n    (?:\n        ((\\().+?(\\)))    # Match title in parens…\n      | ((\").+?(\"))    # or in double quotes…\n      | ((').+?('))    # or in single quotes.\n    )?            # Title is optional\n    \\s*            # Optional whitespace\n  (\\))\n",
+      "name": "meta.link.inline.kermark"
+    },
+    "link-ref": {
+      "captures": {
+        "1": { "name": "punctuation.definition.link.title.begin.kermark" },
+        "2": { "name": "string.other.link.title.kermark" },
+        "4": { "name": "punctuation.definition.link.title.end.kermark" },
+        "5": { "name": "punctuation.definition.constant.begin.kermark" },
+        "6": { "name": "constant.other.reference.link.kermark" },
+        "7": { "name": "punctuation.definition.constant.end.kermark" }
+      },
+      "match": "(?<![\\]\\\\])(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\[)([^\\]]*+)(\\])",
+      "name": "meta.link.reference.kermark"
+    },
+    "link-ref-literal": {
+      "captures": {
+        "1": { "name": "punctuation.definition.link.title.begin.kermark" },
+        "2": { "name": "string.other.link.title.kermark" },
+        "4": { "name": "punctuation.definition.link.title.end.kermark" },
+        "5": { "name": "punctuation.definition.constant.begin.kermark" },
+        "6": { "name": "punctuation.definition.constant.end.kermark" }
+      },
+      "match": "(?<![\\]\\\\])(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])[ ]?(\\[)(\\])",
+      "name": "meta.link.reference.literal.kermark"
+    },
+    "link-ref-shortcut": {
+      "captures": {
+        "1": { "name": "punctuation.definition.link.title.begin.kermark" },
+        "2": { "name": "string.other.link.title.kermark" },
+        "3": { "name": "punctuation.definition.link.title.end.kermark" }
+      },
+      "match": "(?<![\\]\\\\])(\\[)(\\S+?)(\\])",
+      "name": "meta.link.reference.kermark"
+    },
+    "raw": {
+      "captures": {
+        "1": { "name": "punctuation.definition.raw.kermark" },
+        "3": { "name": "punctuation.definition.raw.kermark" }
+      },
+      "match": "(`+)((?:[^`]|(?!(?<!`)\\1(?!`))`)*+)(\\1)",
+      "name": "markup.inline.raw.string.kermark"
+    },
+    "strikethrough": {
+      "captures": {
+        "1": { "name": "punctuation.definition.strikethrough.kermark" },
+        "2": {
+          "patterns": [
+            {
+              "applyEndPatternLast": 1,
+              "begin": "(?=<[^>]*?>)",
+              "end": "(?<=>)",
+              "patterns": [{ "include": "text.html.derivative" }]
+            },
+            { "include": "#escape" },
+            { "include": "#ampersand" },
+            { "include": "#bracket" },
+            { "include": "#raw" },
+            { "include": "#bold" },
+            { "include": "#italic" },
+            { "include": "#image-inline" },
+            { "include": "#link-inline" },
+            { "include": "#link-inet" },
+            { "include": "#link-email" },
+            { "include": "#image-ref" },
+            { "include": "#link-ref-literal" },
+            { "include": "#link-ref" },
+            { "include": "#link-ref-shortcut" }
+          ]
+        },
+        "3": { "name": "punctuation.definition.strikethrough.kermark" }
+      },
+      "match": "(~{2,})((?:[^~]|(?!(?<!~)\\1(?!~))~)*+)(\\1)",
+      "name": "markup.strikethrough.kermark"
+    },
+    "__GEN__": "{{languageDefinitions}}",
+    "fenced_code_block": {
+      "patterns": [
+        { "__GEN__": "{{languageIncludes}}" },
+        { "include": "#fenced_code_block_unknown" }
+      ]
+    },
+    "fenced_code_block_unknown": {
+      "begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?=([^`~]*)?$)",
+      "beginCaptures": {
+        "3": { "name": "punctuation.definition.kermark" },
+        "4": { "name": "fenced_code.block.language" }
+      },
+      "end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
+      "endCaptures": { "3": { "name": "punctuation.definition.kermark" } },
+      "name": "markup.fenced_code.block.kermark"
+    }
+  }
+}
